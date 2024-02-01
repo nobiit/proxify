@@ -1,4 +1,4 @@
-
+/.idea/
 cmd/proxify/proxify
 cmd/proxify/logs/*
 .DS_Store
