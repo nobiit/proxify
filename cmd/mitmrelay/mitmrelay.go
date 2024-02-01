@@ -69,7 +69,7 @@ func dnsserver(listenAddr, resolverAddr, dnsMap string) {
 func main() {
 	options := &Options{}
 	flag.StringVar(&options.OutputFolder, "output", "logs/", "Output Folder")
-	flag.StringVar(&options.HTTPListenerAddress, "http-addr", "127.0.0.1:49999", "HTTP Server Listen Address")
+	flag.StringVar(&options.HTTPListenerAddress, "http-addr", "0.0.0.0:49999", "HTTP Server Listen Address")
 	flag.StringVar(&options.HTTPProxy, "proxy-addr", "", "HTTP Proxy Address")
 	flag.BoolVar(&options.ServerTLS, "tls-server", false, "Client => Relay should use tls")
 	flag.StringVar(&options.ServerCert, "server-cert", "", "Client => Relay Cert File")

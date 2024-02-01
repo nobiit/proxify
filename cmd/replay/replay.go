@@ -36,7 +36,7 @@ func main() {
 	options := &Options{}
 	flag.StringVar(&options.OutputFolder, "output", "db/", "Output Folder")
 	flag.StringVar(&options.HTTPListenerAddress, "http-addr", ":80", "HTTP Server Listen Address")
-	flag.StringVar(&options.HTTPBurpAddress, "burp-addr", "http://127.0.0.1:8080", "Burp HTTP Address")
+	flag.StringVar(&options.HTTPBurpAddress, "burp-addr", "http://0.0.0.0:8080", "Burp HTTP Address")
 	flag.StringVar(&options.DNSListenerAddress, "dns-addr", ":10000", "DNS UDP Server Listen Address")
 	flag.StringVar(&options.HTTPProxyListenerAddress, "proxy-addr", ":8081", "HTTP Proxy Server Listen Address")
 	flag.Parse()

@@ -84,8 +84,8 @@ FILTER:
    -resp-mrd, -response-match-replace-dsl string[]  Response Match-Replace DSL
 
 NETWORK:
-   -ha, -http-addr string    Listening HTTP IP and Port address (ip:port) (default "127.0.0.1:8888")
-   -sa, -socks-addr string   Listening SOCKS IP and Port address (ip:port) (default "127.0.0.1:10080")
+   -ha, -http-addr string    Listening HTTP IP and Port address (ip:port) (default "0.0.0.0:8888")
+   -sa, -socks-addr string   Listening SOCKS IP and Port address (ip:port) (default "0.0.0.0:10080")
    -da, -dns-addr string     Listening DNS IP and Port address (ip:port)
    -dm, -dns-mapping string  Domain to IP DNS mapping (eg domain:ip,domain:ip,..)
    -r, -resolver string      Custom DNS resolvers to use (ip:port)
@@ -148,12 +148,12 @@ proxify -pt '(.*\.)?google\.co.in.*'
 
 Runs an HTTP proxy on port 8888 and forward the traffic to burp on port **8080**:
 ```shell
-proxify -http-proxy http://127.0.0.1:8080
+proxify -http-proxy http://0.0.0.0:8080
 ```
 
 Runs an HTTP proxy on port 8888 and forward the traffic to the TOR network:
 ```shell
-proxify -socks5-proxy 127.0.0.1:9050
+proxify -socks5-proxy 0.0.0.0:9050
 ```
 
 
@@ -207,7 +207,7 @@ proxify -response-match-replace-dsl "replace_regex(response, '^authentication fa
 
 ### Replay all traffic into burp
 
-Replay all the dumped requests/responses into the destination URL (http://127.0.0.1:8080) if not specified. For this to work it's necessary to configure burp to use proxify as upstream proxy, as it will take care to hijack the dns resolutions and simulate the remote server with the dumped request. This allows to have in the burp history exactly all requests/responses as if they were originally sent through it, allowing for example to perform a remote interception on cloud, and merge all results locally within burp.
+Replay all the dumped requests/responses into the destination URL (http://0.0.0.0:8080) if not specified. For this to work it's necessary to configure burp to use proxify as upstream proxy, as it will take care to hijack the dns resolutions and simulate the remote server with the dumped request. This allows to have in the burp history exactly all requests/responses as if they were originally sent through it, allowing for example to perform a remote interception on cloud, and merge all results locally within burp.
 
 ```shell
 replay -output "logs/"
@@ -229,7 +229,7 @@ Proxify can be used for multiple places, here are some common example where Prox
 Runs an HTTP proxy on port `8888` and forward the traffic to burp on port `8080`:
 
 ```shell
-proxify -http-proxy http://127.0.0.1:8080
+proxify -http-proxy http://0.0.0.0:8080
 ```
 
 From BurpSuite, set the Upstream Proxy to forward all the traffic back to `proxify`:
@@ -256,7 +256,7 @@ proxify -output chrome-logs
 
 Start Chrome browser in macOS,
 ```shell
-/Applications/Chromium.app/Contents/MacOS/Chromium --ignore-certificate-errors --proxy-server=http://127.0.0.1:8888 &
+/Applications/Chromium.app/Contents/MacOS/Chromium --ignore-certificate-errors --proxy-server=http://0.0.0.0:8888 &
 ```
 
 </details>
@@ -274,7 +274,7 @@ proxify -output ffuf-logs
 Run `FFuF` with proxy pointing to `proxify`:
 
 ```shell
-ffuf -x http://127.0.0.1:8888 FFUF_CMD_HERE
+ffuf -x http://0.0.0.0:8888 FFUF_CMD_HERE
 ```
 
 </details>
