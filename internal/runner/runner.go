@@ -41,6 +41,7 @@ func NewRunner(options *Options) (*Runner, error) {
 		ListenAddrHTTP:              options.ListenAddrHTTP,
 		ListenAddrSocks5:            options.ListenAddrSocks5,
 		OutputDirectory:             options.OutputDirectory,
+		OutputHTTP:                  options.OutputHTTP,
 		RequestDSL:                  options.RequestDSL,
 		ResponseDSL:                 options.ResponseDSL,
 		UpstreamHTTPProxies:         options.UpstreamHTTPProxies,
@@ -100,6 +101,10 @@ func (r *Runner) Run() error {
 			logPath = filepath.Join(logPath, file.ProxifyJsonlLogFile)
 		}
 		gologger.Info().Msgf("Saving proxify traffic to %s\n", logPath)
+	}
+	if r.options.OutputHTTP != "" {
+		url := r.options.OutputHTTP
+		gologger.Info().Msgf("Send proxify traffic to %s\n", url)
 	}
 	if r.options.Kafka.Addr != "" {
 		gologger.Info().Msgf("Sending traffic to Kafka at %s\n", r.options.Kafka.Addr)

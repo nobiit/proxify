@@ -48,6 +48,7 @@ type Options struct {
 	ListenAddrHTTP              string
 	ListenAddrSocks5            string
 	OutputDirectory             string
+	OutputHTTP                  string
 	RequestDSL                  []string
 	ResponseDSL                 []string
 	UpstreamHTTPProxies         []string
@@ -402,6 +403,7 @@ func NewProxy(options *Options) (*Proxy, error) {
 	logger := logger.NewLogger(&logger.OptionsLogger{
 		Verbosity:    options.Verbosity,
 		OutputFolder: options.OutputDirectory,
+		OutputHTTP:   options.OutputHTTP,
 		DumpRequest:  options.DumpRequest,
 		DumpResponse: options.DumpResponse,
 		OutputJsonl:  options.OutputJsonl,
