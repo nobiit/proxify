@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/projectdiscovery/proxify/pkg/logger/webhook"
 	"io"
 	"net/http"
 	"net/http/httputil"
@@ -29,6 +30,7 @@ const (
 type OptionsLogger struct {
 	Verbosity    types.Verbosity
 	OutputFolder string
+	OutputHTTP   string
 	DumpRequest  bool
 	DumpResponse bool
 	OutputJsonl  bool
@@ -90,6 +92,16 @@ func NewLogger(options *OptionsLogger) *Logger {
 
 		}
 	}
+	if options.OutputHTTP != "" {
+		store, err := webhook.New(&webhook.Options{
+			Url: options.OutputHTTP,
+		})
+		if err != nil {
+			gologger.Warning().Msgf("Error while creating webhook logger: %s", err)
+		} else {
+			logger.Store = append(logger.Store, store)
+		}
+	}
 
 	go logger.AsyncWrite()
 
@@ -149,7 +161,7 @@ func (l *Logger) LogRequest(req *http.Request, userdata types.UserData) error {
 		}
 		l.jsonLogMap.Store(userdata.ID, outputData)
 	}
-	if (!l.options.OutputJsonl) && (l.options.OutputFolder != "" || l.options.Kafka.Addr != "" || l.options.Elastic.Addr != "") {
+	if (!l.options.OutputJsonl) && (l.options.OutputFolder != "" || l.options.Kafka.Addr != "" || l.options.Elastic.Addr != "" || l.options.OutputHTTP != "") {
 		l.asyncqueue <- types.OutputData{Data: reqdump, Userdata: userdata}
 	}
 
@@ -200,7 +212,7 @@ func (l *Logger) LogResponse(resp *http.Response, userdata types.UserData) error
 			return err
 		}
 	}
-	if l.options.OutputFolder != "" || l.options.Kafka.Addr != "" || l.options.Elastic.Addr != "" {
+	if l.options.OutputFolder != "" || l.options.Kafka.Addr != "" || l.options.Elastic.Addr != "" || l.options.OutputHTTP != "" {
 		l.asyncqueue <- types.OutputData{Data: respdump, Userdata: userdata}
 	}
 	if l.options.Verbosity >= types.VerbosityVeryVerbose {
