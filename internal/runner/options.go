@@ -67,7 +67,7 @@ func ParseOptions() (*Options, error) {
 
 	flagSet.CreateGroup("output", "Output",
 		// Todo:	flagSet.BoolVar(&options.Dump, "dump", true, "Dump HTTP requests/response to output file"),
-		flagSet.StringVarP(&options.OutputDirectory, "output", "o", "logs", "Output Directory to store HTTP proxy logs"),
+		flagSet.StringVarP(&options.OutputDirectory, "output", "o", "", "Output Directory to store HTTP proxy logs"),
 		flagSet.BoolVar(&options.DumpRequest, "dump-req", false, "Dump only HTTP requests to output file"),
 		flagSet.BoolVar(&options.DumpResponse, "dump-resp", false, "Dump only HTTP responses to output file"),
 		flagSet.BoolVarP(&options.OutputJsonl, "jsonl", "j", false, "write output in JSONL(ines) format"),
